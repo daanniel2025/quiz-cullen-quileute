@@ -2,6 +2,12 @@ import streamlit as st
 
 st.title("Você seria um Vampiro ou um Lobo?")
 
+st.markdown("""
+Você já se perguntou de que lado da história estaria?  
+Será que você se encaixa mais no mundo misterioso dos vampiros Cullen ou no espírito livre e protetor dos lobisomens Quileute?  
+Descubra agora respondendo este quiz divertido!
+""")
+
 perguntas = [
     {
         "texto": "1. Qual ambiente você prefere?",
