@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Quiz: Você seria um Vampiro ou um Lobo?")
+st.title("Você seria um Vampiro ou um Lobo?")
 
 perguntas = [
     {
