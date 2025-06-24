@@ -56,18 +56,44 @@ perguntas = [
     }
 ]
 
-respostas = {}
-
-for i, p in enumerate(perguntas):
-    respostas[i] = st.radio(p["texto"], options=list(p["opcoes"].keys()), format_func=lambda x: p["opcoes"][x])
-
-if st.button("Ver Resultado"):
-    total_cullen = sum(respostas[i] in ['A', 'C'] for i in respostas)
-    total_quileute = sum(respostas[i] in ['B', 'D'] for i in respostas)
-
+# Função para calcular resultado
+def calcular_resultado(respostas):
+    total_cullen = sum(r in ['A', 'C'] for r in respostas.values())
+    total_quileute = sum(r in ['B', 'D'] for r in respostas.values())
     if total_cullen > total_quileute:
-        st.markdown("### 🧛 Você tem o perfil de um Vampiro! Discreto, observador e com uma força interna poderosa.")
-        st.image("https://recreio.com.br/wp-content/uploads/filmes/crepusculo_edward_capa.jpg", caption="Edward Cullen")
+        return "cullen"
+    elif total_quileute > total_cullen:
+        return "quileute"
     else:
-        st.markdown("### 🐺 Você se parece com um Lobo! Intenso, impulsivo e guiado por laços profundos com os outros.")
-        st.image("https://preview.redd.it/0homd9i7h7r91.jpg?auto=webp&s=933591cf94b4427a903bddbb4bf4c8afe585eb49", caption="Quileute")
+        return "empate"
+
+# Inicializar session_state para respostas
+if 'respostas' not in st.session_state:
+    st.session_state['respostas'] = {}
+
+# Exibir perguntas e salvar respostas no session_state
+for i, p in enumerate(perguntas):
+    st.session_state['respostas'][i] = st.radio(
+        p["texto"], 
+        options=list(p["opcoes"].keys()), 
+        format_func=lambda x, p=p: p["opcoes"][x],  # evita late binding
+        key=f"pergunta_{i}"
+    )
+
+# Botão para calcular resultado
+if st.button("Ver Resultado"):
+    respostas = st.session_state['respostas']
+
+    # Verificar se todas as perguntas foram respondidas
+    if None in respostas.values() or len(respostas) < len(perguntas):
+        st.warning("Por favor, responda todas as perguntas antes de ver o resultado.")
+    else:
+        resultado = calcular_resultado(respostas)
+        if resultado == "cullen":
+            st.markdown("### 🧛 Você tem o perfil de um Vampiro! Discreto, observador e com uma força interna poderosa.")
+            st.image("https://recreio.com.br/wp-content/uploads/filmes/crepusculo_edward_capa.jpg", caption="Edward Cullen")
+        elif resultado == "quileute":
+            st.markdown("### 🐺 Você se parece com um Lobo! Intenso, impulsivo e guiado por laços profundos com os outros.")
+            st.image("https://preview.redd.it/0homd9i7h7r91.jpg?auto=webp&s=933591cf94b4427a903bddbb4bf4c8afe585eb49", caption="Quileute")
+        else:
+            st.markdown("### 🤝 Resultado equilibrado! Você tem características dos dois lados.")
