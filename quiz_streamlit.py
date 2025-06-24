@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Quiz: Você seria um Cullen ou um Quileute?")
+st.title("Quiz: Você seria um Vampiro ou um Lobo?")
 
 perguntas = [
     {
@@ -60,6 +60,6 @@ if st.button("Ver Resultado"):
     total_quileute = sum(respostas[i] in ['B', 'D'] for i in respostas)
 
     if total_cullen > total_quileute:
-        st.markdown("### 🧛 Você tem o perfil de um Cullen! Discreto, observador e com uma força interna poderosa.")
+        st.markdown("### 🧛 Você tem o perfil de um Vampiro! Discreto, observador e com uma força interna poderosa.")
     else:
-        st.markdown("### 🐺 Você se parece com um Quileute! Intenso, impulsivo e guiado por laços profundos com os outros.")
+        st.markdown("### 🐺 Você se parece com um Lobo! Intenso, impulsivo e guiado por laços profundos com os outros.")
